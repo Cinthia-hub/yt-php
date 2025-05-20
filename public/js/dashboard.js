@@ -1,5 +1,5 @@
 const usuario = localStorage.getItem('usuario')
-if(!usuario){
+if (!usuario) {
   window.location.href = 'index.html'
 }
 
@@ -60,20 +60,20 @@ crearForm.addEventListener('submit', async (event) => {
 
   try{
     const response = await fetch('http://localhost:8888/yt-php/backend/index.php/create', {
-        method: 'POST',
-        headers:{
+      method: 'POST',
+      headers:{
         'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataObj) 
+      },
+      body: JSON.stringify(dataObj) 
     })
 
     const result = await response.json()
 
     if(result.message === 'success' && result.data === 'Usuario creado exitosamente'){
-        mostrarAlerta('Usuario Creado Exitosamente', 'success')
-        crearForm.reset()
-        bootstrap.Modal.getInstance(document.getElementById('crearModal')).hide()
-        cargaUsuarios()
+      mostrarAlerta('Usuario Creado Exitosamente', 'success')
+      crearForm.reset()
+      bootstrap.Modal.getInstance(document.getElementById('crearModal')).hide()
+      cargaUsuarios()
     }else{
       mostrarAlerta(result.message || 'Error al crear el usuario', 'error')
     }

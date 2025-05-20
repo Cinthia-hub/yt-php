@@ -12,7 +12,8 @@
         }
 
         public function create(Usuario $usuario){
-            $sql = "INSERT INTO usuarios (nombre, apaterno, amaterno, direccion, telefono, ciudad, estado, usuario, password, rol) VALUES (:nombre, :apaterno, :amaterno, :direccion, :telefono, :ciudad, :estado, :usuario, :password, :rol)";
+            $sql = "INSERT INTO usuarios (nombre, apaterno, amaterno, direccion, telefono, ciudad, estado, usuario, password, rol)
+                    VALUES (:nombre, :apaterno, :amaterno, :direccion, :telefono, :ciudad, :estado, :usuario, :password, :rol)";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->bindParam(':nombre', $usuario->nombre);
             $query_execute->bindParam(':apaterno', $usuario->apaterno);
@@ -51,8 +52,8 @@
 
             $data = $query_execute->fetch(PDO::FETCH_ASSOC);
 
-            if (!$data){
-            return null;
+            if(!$data){
+                return null;
             }
 
             return new Usuario(

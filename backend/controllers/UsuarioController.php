@@ -13,8 +13,8 @@
     }
 
     public function login($data){
-      try {
-        if(is_array($data)) {
+      try{
+        if(is_array($data)){
           $data = (object) $data;
         }
 

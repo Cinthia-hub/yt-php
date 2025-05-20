@@ -9,6 +9,6 @@
         public function getAll(): array;
         public function getById(int $id): Usuario|null;
         public function update(Usuario $usuario): bool;
-        public function delete(int $id): bool; 
+        public function delete(int $id): bool;
     }
 ?>
