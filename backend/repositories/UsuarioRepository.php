@@ -36,7 +36,7 @@
             return $query_execute->fetch(PDO::FETCH_ASSOC);
         }
 
-        public function getById($id) {
+        public function getById($id){
             $sql = "SELECT * FROM usuarios WHERE id = :id";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->bindParam(':id', $id);
@@ -45,7 +45,7 @@
         }
 
 
-        public function getByUsername($usuario) {
+        public function getByUsername($usuario){
             $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->bindParam(':usuario', $usuario);
@@ -53,7 +53,7 @@
 
             $data = $query_execute->fetch(PDO::FETCH_ASSOC);
 
-            if (!$data) {
+            if(!$data){
                 return null;
             }
 
@@ -72,7 +72,7 @@
             );
         }
 
-        public function update(Usuario $usuario) {
+        public function update(Usuario $usuario){
             $sql = "SELECT * FROM usuarios WHERE id = :id";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->bindParam(':id', $usuario->id);
@@ -80,7 +80,7 @@
             $result = $query_execute->fetch(PDO::FETCH_ASSOC);
             $passwordActual = $result['password'] ?? '';
 
-            if (!password_verify($usuario->password, $passwordActual)) {
+            if(!password_verify($usuario->password, $passwordActual)){
                 $usuario->password = password_hash($usuario->password, PASSWORD_DEFAULT);
             }
 
@@ -102,7 +102,7 @@
             return $query_execute->execute();
         }
 
-        public function delete($id) {
+        public function delete($id){
             $sql = "DELETE FROM usuarios WHERE id = :id";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->bindParam(':id', $id);
