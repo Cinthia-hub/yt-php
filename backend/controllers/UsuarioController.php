@@ -38,7 +38,6 @@
       }
     }
 
-    
     public function create($data){
       try{
         if(is_array($data)){
