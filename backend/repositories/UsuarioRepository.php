@@ -12,20 +12,19 @@
         }
 
         public function create(Usuario $usuario){
-            $sql = "INSERT INTO usuario (nombre, apaterno, amaterno, direccion, telefono, ciudad, estado, usuario, password, rol)
-                    VALUES (:nombre, :apaterno, :amaterno, :direccion, :telefono, :ciudad, :estado, :usuario, :password, :rol)"
-            
+            $sql = "INSERT INTO usuarios (nombre, apaterno, amaterno, direccion, telefono, ciudad, estado, usuario, password, rol) VALUES (:nombre, :apaterno, :amaterno, :direccion, :telefono, :ciudad, :estado, :usuario, :password, :rol)";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->bindParam(':nombre', $usuario->nombre);
             $query_execute->bindParam(':apaterno', $usuario->apaterno);
             $query_execute->bindParam(':amaterno', $usuario->amaterno);
             $query_execute->bindParam(':direccion', $usuario->direccion);
             $query_execute->bindParam(':telefono', $usuario->telefono);
+            $query_execute->bindParam(':ciudad', $usuario->ciudad);
             $query_execute->bindParam(':estado', $usuario->estado);
             $query_execute->bindParam(':usuario', $usuario->usuario);
             $query_execute->bindParam(':password', $usuario->password);
             $query_execute->bindParam(':rol', $usuario->rol);
-           
+
             return $query_execute->execute();
         }
 
@@ -33,7 +32,7 @@
             $sql = "SELECT * FROM usuarios";
             $query_execute = $this->conn->prepare($sql);
             $query_execute->execute();
-            return $query_execute->fetch(PDO::FETCH_ASSOC);
+            return $query_execute->fetchAll(PDO::FETCH_ASSOC);
         }
 
         public function getById($id){
@@ -44,7 +43,6 @@
             return $query_execute->fetch(PDO::FETCH_ASSOC);
         }
 
-
         public function getByUsername($usuario){
             $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
             $query_execute = $this->conn->prepare($sql);
@@ -53,22 +51,22 @@
 
             $data = $query_execute->fetch(PDO::FETCH_ASSOC);
 
-            if(!$data){
-                return null;
+            if (!$data){
+            return null;
             }
 
             return new Usuario(
-                $data['id'],
-                $data['nombre'],
-                $data['apaterno'],
-                $data['amaterno'],
-                $data['direccion'],
-                $data['telefono'],
-                $data['ciudad'],
-                $data['estado'],
-                $data['usuario'],
-                $data['password'],
-                $data['rol']
+            $data['id'],
+            $data['nombre'],
+            $data['apaterno'],
+            $data['amaterno'],
+            $data['direccion'],
+            $data['telefono'],
+            $data['ciudad'],
+            $data['estado'],
+            $data['usuario'],
+            $data['password'],
+            $data['rol']
             );
         }
 

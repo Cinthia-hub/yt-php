@@ -14,9 +14,9 @@
         public $password;
         public $rol;
 
-        public function __contruct{
+        public function __construct(
             $id = null, $nombre, $apaterno, $amaterno, $direccion, $telefono, $ciudad, $estado, $usuario, $password, $rol
-        }{
+        ){
             $this->id = $id;
             $this->nombre = $nombre;
             $this->apaterno = $apaterno;
