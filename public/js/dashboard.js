@@ -37,4 +37,91 @@ const cargaUsuarios = async () => {
   }
 }
 
+const eliminarUsuario = async id => {
+  const confirmation = confirm('¿Estas seguro?')
+  if(confirmation){
+    try{
+      const response = await fetch(`http://localhost:8888/yt-php/backend/index.php/usuario/${id}`, {
+        method: 'DELETE'
+      })
+      const result = await response.json()
+      mostrarAlerta(result.message || 'Usuario Eliminado', 'success')
+      cargaUsuarios()
+    }catch(error){
+      mostrarAlerta(error, 'error')
+    }
+  }
+}
+
+crearForm.addEventListener('submit', async (event) => {
+  event.preventDefault()
+  const formData = new FormData(crearForm)
+  const dataObj = Object.fromEntries(formData.entries())
+
+  try{
+    const response = await fetch('http://localhost:8888/yt-php/backend/index.php/create', {
+        method: 'POST',
+        headers:{
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataObj) 
+    })
+
+    const result = await response.json()
+
+    if(result.message === 'success' && result.data === 'Usuario creado exitosamente'){
+        mostrarAlerta('Usuario Creado Exitosamente', 'success')
+        crearForm.reset()
+        bootstrap.Modal.getInstance(document.getElementById('crearModal')).hide()
+        cargaUsuarios()
+    }else{
+      mostrarAlerta(result.message || 'Error al crear el usuario', 'error')
+    }
+  }catch(error){
+    mostrarAlerta(error, 'error')
+  }
+})
+
+const abrirEditar = (usuario) => {
+  console.log('@@ usuario => ', usuario)
+  document.getElementById('editarnombre').value = usuario.nombre
+  document.getElementById('editarapaterno').value = usuario.apaterno
+  document.getElementById('editaramaterno').value = usuario.amaterno
+  document.getElementById('editardireccion').value = usuario.direccion
+  document.getElementById('editartelefono').value = usuario.telefono
+  document.getElementById('editarciudad').value = usuario.ciudad
+  document.getElementById('editarestado').value = usuario.estado
+  document.getElementById('editarusuario').value = usuario.usuario
+  document.getElementById('editarpassword').value = ''
+  document.getElementById('editarrol').value = usuario.rol
+
+  const modalEdita = new bootstrap.Modal(document.getElementById('editarModal'))
+  modalEdita.show()
+
+  editarForm.onsubmit = async (event) => {
+    event.preventDefault()
+    const formData = new FormData(editarForm)
+    const dataObj = Object.fromEntries(formData.entries())
+
+    try{
+      const response = await fetch(`http://localhost:8888/yt-php/backend/index.php/usuario/${usuario.id}`, {
+        method: 'PUT',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataObj) 
+      })
+
+      const result = await response.json()
+
+      mostrarAlerta('Usuario Actualizado Exitosamente', 'success')
+      editarForm.reset()
+      cargaUsuarios()
+      bootstrap.Modal.getInstance(document.getElementById('editarModal')).hide()
+    }catch(error){
+      mostrarAlerta(error, 'error')
+    }
+  }
+}
+
 cargaUsuarios()
